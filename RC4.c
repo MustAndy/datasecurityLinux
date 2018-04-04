@@ -1,7 +1,7 @@
 #include "header.h"
 typedef unsigned longULONG;
-static FILE *key_file, *input_file, *output_file;
-
+// static FILE *key_file, *input_file, *output_file;
+static FILE *output_file;
 void rc4_init(unsigned char*s, unsigned char*key, unsigned long Len)
 {
 	int i = 0, j = 0;

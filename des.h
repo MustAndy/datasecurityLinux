@@ -1,13 +1,15 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdint.h>
+#ifndef _DES_H
+#define _DES_H_
+
+
 
 #define LB32_MASK   0x00000001
 #define LB64_MASK   0x0000000000000001
 #define L64_MASK    0x00000000ffffffff
 #define H64_MASK    0xffffffff00000000
 
-#pragma region des.h
+extern Boolean DesPrinting;
+void des();
 //Peruted_choice_one
 int PC_1[] = { 57, 49,  41, 33,  25,  17,  9,
 								 1, 58,  50, 42,  34,  26, 18,
@@ -52,8 +54,8 @@ int inverse_initial_perutation[] = { 40,  8, 48, 16, 56, 24, 64, 32,
 int schedule_of_left_shifts[] = { 1, 1, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 1 };
 
 
-//E
-int expansion_permutation[] = { 32,  1,  2,  3,  4,  5,
+//expansion_permutation
+int E_Table[] = { 32,  1,  2,  3,  4,  5,
 							 4,  5,  6,  7,  8,  9,
 							 8,  9, 10, 11, 12, 13,
 							12, 13, 14, 15, 16, 17,
@@ -110,4 +112,5 @@ int S_box[8][64] = {
 			 7, 11,  4,  1,  9, 12, 14,  2,  0,  6, 10, 13, 15,  3,  5,  8,
 			 2,  1, 14,  7,  4, 10,  8, 13, 15, 12,  9,  0,  3,  5,  6, 11 },
 };
-#pragma endregion
+
+#endif

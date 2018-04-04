@@ -22,7 +22,6 @@ void s_des()
 	char Tempplain1[5]; // right part of encryption output
 	char Tempplain2[5]; // left part of encryption output
 
-#pragma region s_des_key
 
 	for (int a = 0; a < 10; a++)
 		tempkey[a] = key[(p10[a] - 1)];
@@ -66,9 +65,6 @@ void s_des()
 	subkey2[8] = '\0';
 	printf("k1: %s\n", subkey1);
 	printf("k2: %s\n", subkey2);
-#pragma endregion
-
-#pragma region s - des - encryption
 
 	for (int a = 0; a < 8; a++)
 		if (a > 3)
@@ -100,7 +96,7 @@ void s_des()
 
 	ciphertext[8] = '\0';
 	printf("cipher: %s\n", ciphertext);
-#pragma endregion
+
 }
 
 void s_des_encryption(char subplain1[5], char subplain2[5], char key[9])

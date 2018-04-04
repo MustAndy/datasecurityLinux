@@ -4,7 +4,7 @@ void encrpt(int row, int column, int PlainLength, char *matrix[], char plaintext
 
 void Cols_Rows_Transposition()
 {
-#pragma region Cols_Rows_Transposition
+
 	//int PlainLength;
 	//printf("please input the length of the plaintext:");
 	//scanf("%d", &PlainLength);
@@ -52,7 +52,6 @@ void Cols_Rows_Transposition()
 	matrix = (char **)malloc(sizeof(char *)*row);
 	for (int a = 0; a < row; a++)
 		*(matrix + a) = (char *)malloc(sizeof(char)*column);
-	char *tempPlain = malloc(PlainLength + 1);
 
 	for (int c = 0; c < round; c++)
 		encrpt(row, column, PlainLength, matrix, plaintext, KeyLength, keyInt);
@@ -60,7 +59,7 @@ void Cols_Rows_Transposition()
 
 	plaintext[PlainLength] = '\0';
 	printf("Result: %s\n", plaintext);
-#pragma endregion
+
 }
 
 void encrpt(int row, int column, int PlainLength, char *matrix[], char plaintext[], int KeyLength, int keyInt[])

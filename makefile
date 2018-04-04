@@ -5,7 +5,7 @@
 #
 CC = gcc
 
-CFLAGS = #-Wall
+CFLAGS = -Wall
 
 OBJS = main.o CaesarCipher.o Cols_Rows_Transposition.o des.o PlayfairCipher.o RC4.o s_des.o s_RC4.o vigenereCipher.o
 
