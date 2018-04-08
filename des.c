@@ -5,7 +5,7 @@ uint64_t des_encryption();
 Boolean DesPrinting;
 void binaryOutput(long int n, int bitsNum, char name[])
 {
-	printf("%10s: ", name);
+	printf("%20s: ", name);
 	for (int i = bitsNum; i > 0; i--)
 	{
 		long int temp = (n >> (i - 1)) & 0x0000000000000001;
@@ -34,7 +34,7 @@ void des()
 	result = des_encryption(input, key);
 	if (DesPrinting)
 		binaryOutput(result, 64, "result");
-	printf("E: %016lx\n", result);
+	printf("%9cCipher Text: %016lX\n",' ', result);
 }
 
 uint64_t des_encryption(uint64_t input, uint64_t key)
@@ -90,11 +90,12 @@ uint64_t des_encryption(uint64_t input, uint64_t key)
 	}
 
 	printf("\nApplying the key for every loop of encrpt...\n\n");
-	uint64_t L = 0;		  //32-bits
-	uint64_t R = 0;		  //32-bits
-	uint64_t EResult = 0; //48-bits
-	uint64_t S_BoxResult = 0; //32-bits
-	
+	uint64_t L = 0;			  //32-bits
+	uint64_t R = 0;			  //32-bits
+	uint64_t EResult = 0;	 //48-bits
+	uint32_t S_BoxResult = 0; //32-bits
+	uint32_t PResult = 0;	 //32-bits
+	uint64_t TempResiger = 0; //Templt store the variable.
 	//get every bits of plaintext and do the initial_message_permutation
 	for (int i = 0; i < 64; i++)
 	{
@@ -119,8 +120,48 @@ uint64_t des_encryption(uint64_t input, uint64_t key)
 		if (DesPrinting)
 			binaryOutput(EResult, 48, "EResult");
 		//S-BOX
-		
+		char row, column;
+
+		for (int j = 7; j >= 0; j--)
+		{
+			row = ((EResult >> (6 * j)) & (0x84 >> 2));
+			//normalize the row into 0-3
+			row = (row > 1) ? (row - 30) : (row);
+
+			column = (((EResult >> (6 * j)) & (0x1E)) >> 1);
+
+			//row = 0 - 3
+			//column = 0 - F
+			S_BoxResult <<= 4;
+			S_BoxResult |= (S_box[7 - j][16 * row + column] & 0x0f);
+		}
+		if (DesPrinting)
+			binaryOutput(S_BoxResult, 32, "S-box result");
+
+		//permutation
+		for (int j = 0; j < 32; j++)
+		{
+			PResult <<= 1;
+			PResult |= (S_BoxResult >> (32 - P[j])) & 1;
+		}
+		if (DesPrinting)
+			binaryOutput(PResult, 32, "Permutation result");
+
+		TempResiger = R;
+		R = PResult ^ L;
+		L = TempResiger;
 	}
 
+	printf("\nFinish the loop and apply Inverse Initial Permutation...\n\n");
+	input = 0;
+	TempResiger = 0;
+	TempResiger = ((R << 32) | L);
+	if (DesPrinting)
+		binaryOutput(TempResiger, 64, "RL");
+	for (int j = 0; j < 64; j++)
+	{
+		input <<= 1;
+		input |= (TempResiger >> (64 - IIP[j])) & 1;
+	}
 	return input;
 }
